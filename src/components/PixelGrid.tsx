@@ -82,7 +82,10 @@ export function PixelGrid({
       )
     }
     
-    const numPoints = Math.max(1, Math.floor((100 - threshold) / 10))
+    const totalPoints = Math.max(1, Math.floor((100 - threshold) / 8))
+    const goodPoints = Math.max(1, Math.ceil(totalPoints * 0.6))
+    const badPoints = Math.max(0, totalPoints - goodPoints)
+    
     const goodPositions = [
       { x: 2, y: 2 },
       { x: 10, y: 3 },
@@ -91,9 +94,6 @@ export function PixelGrid({
       { x: 1, y: 13 },
       { x: 8, y: 6 },
       { x: 13, y: 8 },
-      { x: 3, y: 11 },
-      { x: 9, y: 1 },
-      { x: 6, y: 14 },
     ]
     
     const badPositions = [
@@ -102,15 +102,16 @@ export function PixelGrid({
       { x: 4, y: 14 },
       { x: 11, y: 7 },
       { x: 2, y: 9 },
+      { x: 9, y: 12 },
     ]
     
-    for (let i = 0; i < Math.min(numPoints, goodPositions.length); i++) {
+    for (let i = 0; i < Math.min(goodPoints, goodPositions.length); i++) {
       const pos = goodPositions[i]
       ctx.beginPath()
       ctx.arc(
         (pos.x + 0.5) * cellSize,
         (pos.y + 0.5) * cellSize,
-        cellSize * 0.3,
+        cellSize * 0.35,
         0,
         2 * Math.PI
       )
@@ -121,13 +122,13 @@ export function PixelGrid({
       ctx.stroke()
     }
     
-    for (let i = 0; i < Math.min(Math.max(0, numPoints - 5), badPositions.length); i++) {
+    for (let i = 0; i < Math.min(badPoints, badPositions.length); i++) {
       const pos = badPositions[i]
       ctx.beginPath()
       ctx.arc(
         (pos.x + 0.5) * cellSize,
         (pos.y + 0.5) * cellSize,
-        cellSize * 0.3,
+        cellSize * 0.35,
         0,
         2 * Math.PI
       )
@@ -152,7 +153,7 @@ export function PixelGrid({
       
       {showFilter && (
         <motion.div
-          className="absolute border-4 border-primary bg-primary/20 pointer-events-none"
+          className="absolute border-4 border-primary bg-primary/20 pointer-events-none rounded-sm"
           style={{
             width: `${filterSize * cellSize}%`,
             height: `${filterSize * cellSize}%`,
@@ -160,13 +161,31 @@ export function PixelGrid({
             top: `${filterPosition.y * cellSize}%`,
           }}
           animate={animationActive ? {
-            x: [`0%`, `${(size - filterSize) * cellSize}%`, `0%`],
-            y: [`0%`, `0%`, `${(size - filterSize) * cellSize}%`],
+            x: [
+              '0%',
+              `${(size - filterSize) * cellSize}%`,
+              `${(size - filterSize) * cellSize}%`,
+              '0%',
+              '0%',
+              `${(size - filterSize) * cellSize}%`,
+              `${(size - filterSize) * cellSize}%`,
+              '0%'
+            ],
+            y: [
+              '0%',
+              '0%',
+              `${((size - filterSize) / 2) * cellSize}%`,
+              `${((size - filterSize) / 2) * cellSize}%`,
+              `${(size - filterSize) * cellSize}%`,
+              `${(size - filterSize) * cellSize}%`,
+              `${((size - filterSize) / 2) * cellSize}%`,
+              `${((size - filterSize) / 2) * cellSize}%`
+            ],
           } : {}}
           transition={{
-            duration: 3,
-            ease: "easeInOut",
-            times: [0, 0.5, 1],
+            duration: 6,
+            ease: "linear",
+            times: [0, 0.14, 0.28, 0.42, 0.56, 0.7, 0.84, 1],
           }}
           onAnimationComplete={onAnimationComplete}
         />

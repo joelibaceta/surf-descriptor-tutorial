@@ -346,8 +346,14 @@ function App() {
                         threshold={threshold[0]}
                       />
                       <p className="text-sm text-center text-muted-foreground">
-                        Puntos de interés detectados: {Math.max(1, Math.floor((100 - threshold[0]) / 10))} 
-                        ({Math.min(Math.max(1, Math.floor((100 - threshold[0]) / 10)), 10)} buenos, {Math.max(0, Math.min(Math.max(1, Math.floor((100 - threshold[0]) / 10)) - 5, 5))} malos)
+                        Puntos detectados: {' '}
+                        <span className="text-primary font-medium">
+                          {Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6))} buenos
+                        </span>
+                        {' '}/{' '}
+                        <span className="text-destructive font-medium">
+                          {Math.max(0, Math.max(1, Math.floor((100 - threshold[0]) / 8)) - Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6)))} malos
+                        </span>
                       </p>
                     </div>
                   </div>
