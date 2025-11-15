@@ -305,8 +305,8 @@ function App() {
                             <span className="font-medium">Buenos puntos</span>
                           </div>
                           <p className="text-sm text-muted-foreground">
-                            Esquinas de objetos, cambios bruscos de textura,
-                            intersecciones
+                            Esquinas y bordes del corazón - áreas con cambios
+                            bruscos que son fáciles de reconocer
                           </p>
                         </div>
 
@@ -316,7 +316,8 @@ function App() {
                             <span className="font-medium">Malos puntos</span>
                           </div>
                           <p className="text-sm text-muted-foreground">
-                            Áreas planas sin textura, bordes rectos largos
+                            Interior del corazón o fondo - áreas planas sin
+                            características distintivas
                           </p>
                         </div>
                       </div>
@@ -346,14 +347,15 @@ function App() {
                         threshold={threshold[0]}
                       />
                       <p className="text-sm text-center text-muted-foreground">
-                        Puntos detectados: {' '}
+                        Imagen de corazón: los{' '}
                         <span className="text-primary font-medium">
-                          {Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6))} buenos
+                          puntos azules ({Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6))})
                         </span>
-                        {' '}/{' '}
+                        {' '}están en esquinas/bordes (buenos), los{' '}
                         <span className="text-destructive font-medium">
-                          {Math.max(0, Math.max(1, Math.floor((100 - threshold[0]) / 8)) - Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6)))} malos
+                          rojos ({Math.max(0, Math.max(1, Math.floor((100 - threshold[0]) / 8)) - Math.max(1, Math.ceil(Math.max(1, Math.floor((100 - threshold[0]) / 8)) * 0.6)))})
                         </span>
+                        {' '}en áreas planas (malos)
                       </p>
                     </div>
                   </div>
