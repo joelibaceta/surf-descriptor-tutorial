@@ -66,7 +66,7 @@ const STEPS = [
 function App() {
   const [currentStep, setCurrentStep] = useKV<number>('surf-current-step', 0)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [filterSize, setFilterSize] = useState([4])
+  const [filterSize, setFilterSize] = useState([2])
   const [threshold, setThreshold] = useState([50])
 
   const step = currentStep ?? 0
@@ -432,13 +432,13 @@ function App() {
                         <Slider
                           value={filterSize}
                           onValueChange={setFilterSize}
-                          min={2}
-                          max={8}
-                          step={2}
+                          min={1}
+                          max={4}
+                          step={1}
                           className="mb-2"
                         />
                         <p className="text-xs text-muted-foreground">
-                          Tamaño: {filterSize[0]}x{filterSize[0]} píxeles
+                          Tamaño: {filterSize[0] * 2}x{filterSize[0] * 2} píxeles (más alto = más grande)
                         </p>
                       </div>
 
@@ -463,7 +463,7 @@ function App() {
                       <PixelGrid
                         size={16}
                         showFilter={true}
-                        filterSize={filterSize[0]}
+                        filterSize={filterSize[0] * 2}
                         filterPosition={{ x: 0, y: 0 }}
                         animationActive={isAnimating}
                         onAnimationComplete={() => setIsAnimating(false)}
