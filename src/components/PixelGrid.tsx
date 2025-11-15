@@ -83,7 +83,7 @@ export function PixelGrid({
     }
     
     const numPoints = Math.max(1, Math.floor((100 - threshold) / 10))
-    const positions = [
+    const goodPositions = [
       { x: 2, y: 2 },
       { x: 10, y: 3 },
       { x: 5, y: 8 },
@@ -96,8 +96,16 @@ export function PixelGrid({
       { x: 6, y: 14 },
     ]
     
-    for (let i = 0; i < Math.min(numPoints, positions.length); i++) {
-      const pos = positions[i]
+    const badPositions = [
+      { x: 7, y: 5 },
+      { x: 14, y: 2 },
+      { x: 4, y: 14 },
+      { x: 11, y: 7 },
+      { x: 2, y: 9 },
+    ]
+    
+    for (let i = 0; i < Math.min(numPoints, goodPositions.length); i++) {
+      const pos = goodPositions[i]
       ctx.beginPath()
       ctx.arc(
         (pos.x + 0.5) * cellSize,
@@ -107,6 +115,23 @@ export function PixelGrid({
         2 * Math.PI
       )
       ctx.fillStyle = 'oklch(0.45 0.15 250)'
+      ctx.fill()
+      ctx.strokeStyle = 'oklch(0.98 0 0)'
+      ctx.lineWidth = 2
+      ctx.stroke()
+    }
+    
+    for (let i = 0; i < Math.min(Math.max(0, numPoints - 5), badPositions.length); i++) {
+      const pos = badPositions[i]
+      ctx.beginPath()
+      ctx.arc(
+        (pos.x + 0.5) * cellSize,
+        (pos.y + 0.5) * cellSize,
+        cellSize * 0.3,
+        0,
+        2 * Math.PI
+      )
+      ctx.fillStyle = 'oklch(0.577 0.245 27.325)'
       ctx.fill()
       ctx.strokeStyle = 'oklch(0.98 0 0)'
       ctx.lineWidth = 2
