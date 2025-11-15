@@ -342,10 +342,11 @@ function App() {
                     <div className="space-y-4">
                       <PixelGrid
                         size={16}
-                        highlightRegion={{ x: 6, y: 6, size: 4 }}
+                        highlightRegion={{ x: 6, y: 6, size: Math.max(2, Math.floor((100 - threshold[0]) / 25) + 2) }}
+                        threshold={threshold[0]}
                       />
                       <p className="text-sm text-center text-muted-foreground">
-                        Región de interés detectada (área naranja)
+                        Puntos de interés detectados: {Math.max(1, Math.floor((100 - threshold[0]) / 10))}
                       </p>
                     </div>
                   </div>

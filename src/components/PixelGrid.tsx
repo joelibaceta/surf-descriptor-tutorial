@@ -10,6 +10,7 @@ interface PixelGridProps {
   animationActive?: boolean
   onAnimationComplete?: () => void
   step?: number
+  threshold?: number
 }
 
 export function PixelGrid({
@@ -21,6 +22,7 @@ export function PixelGrid({
   animationActive = false,
   onAnimationComplete,
   step = 0,
+  threshold = 50,
 }: PixelGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [imageData, setImageData] = useState<number[][]>([])
@@ -79,7 +81,38 @@ export function PixelGrid({
         regionSize * cellSize
       )
     }
-  }, [imageData, size, highlightRegion])
+    
+    const numPoints = Math.max(1, Math.floor((100 - threshold) / 10))
+    const positions = [
+      { x: 2, y: 2 },
+      { x: 10, y: 3 },
+      { x: 5, y: 8 },
+      { x: 12, y: 11 },
+      { x: 1, y: 13 },
+      { x: 8, y: 6 },
+      { x: 13, y: 8 },
+      { x: 3, y: 11 },
+      { x: 9, y: 1 },
+      { x: 6, y: 14 },
+    ]
+    
+    for (let i = 0; i < Math.min(numPoints, positions.length); i++) {
+      const pos = positions[i]
+      ctx.beginPath()
+      ctx.arc(
+        (pos.x + 0.5) * cellSize,
+        (pos.y + 0.5) * cellSize,
+        cellSize * 0.3,
+        0,
+        2 * Math.PI
+      )
+      ctx.fillStyle = 'oklch(0.45 0.15 250)'
+      ctx.fill()
+      ctx.strokeStyle = 'oklch(0.98 0 0)'
+      ctx.lineWidth = 2
+      ctx.stroke()
+    }
+  }, [imageData, size, highlightRegion, threshold])
 
   const cellSize = 100 / size
 
